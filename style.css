@@ -1,0 +1,36 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+@font-face {
+font-family:'heading';
+font-style:normal;
+font-weight:400;
+src:url(fonts/bloomings.woff2) format("woff2");
+font-display:swap
+}
+
+@font-face {
+font-family:'base';
+font-style:normal;
+font-weight:400;
+src:url(fonts/Poppins-Regular.woff2) format("woff2");
+font-display:swap
+}
+
+@font-face {
+font-family:'base-bold';
+font-style:normal;
+font-weight:400;
+src:url(fonts/Poppins-Bold.woff2) format("woff2");
+font-display:swap
+}
+
+:root{
+	--base:#E5DBBE;
+	--text:#1a1a1a;
+	--color1:#C8863B;
+	--color2:#9D4528;
+	--color3:#324A37;
+}
