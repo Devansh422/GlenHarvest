@@ -235,6 +235,27 @@ h4,
   z-index: 1;
 }
 
+/* Interactive cursor reveal dot pattern */
+.pattern-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* Brighter, slightly larger dots */
+  background-image: radial-gradient(circle, rgba(242, 232, 212, 0.35) 2.5px, transparent 2.5px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  /* Reveal only around the mouse coordinates */
+  -webkit-mask-image: radial-gradient(circle 120px at var(--mouse-x, -200px) var(--mouse-y, -200px), black, transparent);
+  mask-image: radial-gradient(circle 120px at var(--mouse-x, -200px) var(--mouse-y, -200px), black, transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  will-change: opacity;
+}
+
+.pattern-overlay.mouse-active::after {
+  opacity: 1;
+}
+
 /* Form Elements */
 .gh-input,
 textarea.gh-input {
@@ -298,6 +319,7 @@ textarea.gh-input {
   width: 100%;
   height: 100%;
   transition: none;
+  will-change: opacity;
 }
 
 #bg-green {
@@ -310,11 +332,13 @@ textarea.gh-input {
   z-index: 1;
   opacity: 0;
   /* GSAP will fade this in */
+  will-change: opacity;
 }
 
 #journey-pattern {
   z-index: 2;
   opacity: 1;
+  will-change: opacity;
 }
 
 /* PACKAGES — positioned absolutely in the canvas */
@@ -325,7 +349,7 @@ textarea.gh-input {
   object-fit: contain;
   transform-origin: center center;
   will-change: transform, opacity;
-  z-index: 10;
+  z-index: 5;
   pointer-events: none;
   filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.35));
   /* Both packages centered; GSAP controls all transforms */
@@ -340,17 +364,21 @@ textarea.gh-input {
   transform: scale(0.6) rotate(10deg);
   transition: none;
   /* handled by GSAP */
+  will-change: transform, opacity;
 }
 
 /* BEAT TEXT LAYERS */
 .journey-beat {
   position: absolute;
   inset: 0;
-  z-index: 20;
+  z-index: 15;
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  will-change: opacity;
+  pointer-events: auto;
+  text-align: inherit;
 }
 
 .journey-beat-inner {
@@ -359,6 +387,7 @@ textarea.gh-input {
   padding: 0 6%;
   padding-top: 80px;
   /* nav clearance */
+  will-change: transform, opacity;
 }
 
 #beat-3 .journey-beat-inner {
@@ -580,6 +609,22 @@ textarea.gh-input {
 }
 
 /* ── RESPONSIVE ──────────────────────────────────────────── */
+
+/* Breathing animation for packages when idle at hero */
+@keyframes pkg-breathe {
+  0%, 100% {
+    transform: translateY(0);
+    filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.35)) brightness(1);
+  }
+  50% {
+    transform: translateY(-8px);
+    filter: drop-shadow(0 50px 80px rgba(0, 0, 0, 0.3)) brightness(1.03);
+  }
+}
+
+.pkg-breathe {
+  animation: pkg-breathe 3s ease-in-out infinite;
+}
 
 /* ─ Large tablet (below 900px) ──────────────────────────── */
 @media (max-width: 900px) {

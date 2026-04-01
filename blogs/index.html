@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Blog | Glen Harvest</title>
+	<link rel="stylesheet" type="text/css" href="../style.css">
+	<link rel="stylesheet" type="text/css" href="../navbar.css">
+	<link rel="stylesheet" type="text/css" href="../footer.css">
+	<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+	<script src="https://unpkg.com/split-type"></script>
+	<style>
+		/* Blog-specific styles */
+		.blog-hero {
+			background: var(--gh-green-deep);
+			position: relative;
+			min-height: 50vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding-top: 80px;
+			overflow: hidden;
+		}
+
+		.blog-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+			gap: 2rem;
+		}
+
+		.blog-card {
+			background: var(--gh-white);
+			border: 1px solid var(--gh-cream-warm);
+			border-radius: var(--r-xl);
+			overflow: hidden;
+			transition: transform 0.4s ease, box-shadow 0.4s ease;
+			cursor: pointer;
+		}
+
+		.blog-card:hover {
+			transform: translateY(-6px);
+			box-shadow: 0 24px 48px rgba(0,0,0,0.08);
+		}
+
+		.blog-card-img {
+			width: 100%;
+			height: 220px;
+			object-fit: cover;
+			display: block;
+		}
+
+		.blog-card-body {
+			padding: 2rem;
+		}
+
+		.blog-card-meta {
+			display: flex;
+			align-items: center;
+			gap: 1rem;
+			margin-bottom: 1rem;
+		}
+
+		.blog-card-date {
+			font-size: 12px;
+			color: var(--gh-green-light);
+			font-family: 'base-bold', sans-serif;
+			letter-spacing: 0.5px;
+		}
+
+		.blog-card-tag {
+			font-size: 11px;
+			padding: 4px 12px;
+			border-radius: var(--r-full);
+			background: var(--gh-cream);
+			color: var(--gh-green);
+			font-family: 'base-bold', sans-serif;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+		}
+
+		.blog-card-title {
+			font-family: 'heading', serif;
+			font-size: 1.6rem;
+			line-height: 1.3;
+			color: var(--gh-green-deep);
+			margin-bottom: 0.8rem;
+		}
+
+		.blog-card-excerpt {
+			font-size: 0.95rem;
+			line-height: 1.7;
+			color: var(--gh-green-light);
+			margin-bottom: 1.5rem;
+		}
+
+		.blog-read-more {
+			font-family: 'base-bold', sans-serif;
+			font-size: 14px;
+			color: var(--gh-green);
+			text-decoration: none;
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			transition: gap 0.3s ease;
+		}
+
+		.blog-read-more:hover {
+			gap: 12px;
+		}
+
+		.blog-read-more svg {
+			width: 18px;
+			height: 18px;
+			transition: transform 0.3s ease;
+		}
+
+		.blog-card:hover .blog-read-more svg {
+			transform: translateX(2px);
+		}
+
+		/* Blog detail overlay */
+		#blog-overlay {
+			position: fixed;
+			inset: 0;
+			z-index: 9999;
+			background: var(--gh-white);
+			overflow-y: auto;
+			opacity: 0;
+			visibility: hidden;
+			transition: opacity 0.4s ease, visibility 0.4s ease;
+		}
+
+		#blog-overlay.is-open {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.blog-close-btn {
+			position: sticky;
+			top: 0;
+			z-index: 10;
+			display: flex;
+			justify-content: flex-end;
+			padding: 1.5rem 5%;
+			background: rgba(253, 250, 245, 0.95);
+			backdrop-filter: blur(8px);
+		}
+
+		.blog-close-btn button {
+			background: var(--gh-green);
+			color: var(--gh-cream);
+			border: none;
+			width: 48px;
+			height: 48px;
+			border-radius: 50%;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: transform 0.3s ease;
+		}
+
+		.blog-close-btn button:hover {
+			transform: scale(1.1);
+		}
+
+		.blog-article {
+			max-width: 760px;
+			margin: 0 auto;
+			padding: 0 5% 6rem;
+		}
+
+		.blog-article .blog-article-title {
+			font-family: 'heading', serif;
+			font-size: clamp(2rem, 5vw, 3.5rem);
+			color: var(--gh-green-deep);
+			line-height: 1.2;
+			margin-bottom: 1rem;
+		}
+
+		.blog-article .blog-article-meta {
+			display: flex;
+			gap: 1.5rem;
+			font-size: 13px;
+			color: var(--gh-green-light);
+			font-family: 'base-bold', sans-serif;
+			letter-spacing: 0.5px;
+			margin-bottom: 2.5rem;
+			padding-bottom: 1.5rem;
+			border-bottom: 1px solid var(--gh-cream-warm);
+		}
+
+		.blog-article .blog-article-body p {
+			font-size: 1.05rem;
+			line-height: 1.85;
+			color: var(--gh-green-deep);
+			margin-bottom: 1.5rem;
+		}
+
+		.blog-article .blog-article-body h3 {
+			font-family: 'heading', serif;
+			font-size: 1.8rem;
+			color: var(--gh-green);
+			margin-top: 2.5rem;
+			margin-bottom: 1rem;
+		}
+
+		.blog-article .blog-article-body blockquote {
+			border-left: 4px solid var(--gh-green);
+			padding: 1.5rem 2rem;
+			background: var(--gh-cream);
+			border-radius: 0 var(--r-lg) var(--r-lg) 0;
+			margin: 2rem 0;
+			font-style: italic;
+			color: var(--gh-green-deep);
+			font-size: 1.1rem;
+			line-height: 1.7;
+		}
+
+		.blog-article .blog-article-body ul {
+			padding-left: 1.5rem;
+			margin-bottom: 1.5rem;
+		}
+
+		.blog-article .blog-article-body ul li {
+			font-size: 1.05rem;
+			line-height: 1.8;
+			color: var(--gh-green-deep);
+			margin-bottom: 0.5rem;
+		}
+
+		@media (max-width: 700px) {
+			.blog-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.blog-card-img {
+				height: 180px;
+			}
+
+			.blog-article .blog-article-title {
+				font-size: 2rem;
+			}
+		}
+	</style>
+</head>
+<body>
+
+<nav>
+	<a href="../" class="nav-logo">
+		<span class="nav-logo-icon">
+			<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M12 3C9 3 5 6 5 11c0 3.5 2 6.5 4.5 8.5C10.5 20.5 11 21 12 21s1.5-.5 2.5-1.5C17 17.5 19 14.5 19 11c0-5-4-8-7-8z" fill="#F2E8D4" opacity="0.9"/>
+				<path d="M12 8v9M9 11c1-1 3-1.5 3-1.5s2 .5 3 1.5" stroke="#2C5440" stroke-width="1.4" stroke-linecap="round"/>
+			</svg>
+		</span>
+		<span class="nav-logo-text">Glen Harvest</span>
+	</a>
+
+	<div class="nav-divider"></div>
+
+	<div class="nav-links">
+		<a href="../" class="nav-link">Home</a>
+		<a href="../about/" class="nav-link">Our Story</a>
+		<a href="../blogs/" class="nav-link active">Blogs</a>
+		<a href="../contact/" class="nav-link">Contact</a>
+	</div>
+
+	<a href="../#products" class="nav-cta">Shop Now</a>
+</nav>
+
+<main>
+	<!-- Blog Hero -->
+	<section class="blog-hero">
+		<div class="pattern-overlay" style="opacity: 0.15;"></div>
+		<div class="container" style="position: relative; z-index: 2; text-align: center;">
+			<div class="badge" data-animate="fade-up" style="border-color: rgba(242,232,212,0.1);">The Glen Journal</div>
+			<h1 class="hero-title" data-split="true" style="margin-top: 1rem;">Stories & Insights</h1>
+			<p style="color: rgba(242,232,212,0.7); max-width: 600px; margin: 1.5rem auto 0; font-size: 1.1rem; line-height: 1.6;" data-animate="fade-up">Exploring the world of mindful snacking, ancient wisdom, and the journey from pond to packet.</p>
+		</div>
+	</section>
+
+	<!-- Blog Grid -->
+	<section class="section-padding">
+		<div class="container">
+			<div class="blog-grid">
+
+				<!-- Blog 1 -->
+				<div class="blog-card" data-animate="fade-up" data-blog-id="1">
+					<img class="blog-card-img" src="../assets/img.png" alt="Makhana Origins">
+					<div class="blog-card-body">
+						<div class="blog-card-meta">
+							<span class="blog-card-date">Mar 15, 2026</span>
+							<span class="blog-card-tag">Origin Story</span>
+						</div>
+						<h3 class="blog-card-title">The Ancient Secret of Makhana: From Sacred Pond to Modern Plate</h3>
+						<p class="blog-card-excerpt">Discover how makhana, or fox nuts, has been revered for centuries in Ayurvedic traditions and why it's finally getting the attention it deserves.</p>
+						<a class="blog-read-more" href="#">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+					</div>
+				</div>
+
+				<!-- Blog 2 -->
+				<div class="blog-card" data-animate="fade-up" data-delay="0.1" data-blog-id="2">
+					<img class="blog-card-img" src="../assets/img.png" alt="Nutritional Guide" style="filter: saturate(1.3) hue-rotate(10deg);">
+					<div class="blog-card-body">
+						<div class="blog-card-meta">
+							<span class="blog-card-date">Feb 28, 2026</span>
+							<span class="blog-card-tag">Nutrition</span>
+						</div>
+						<h3 class="blog-card-title">The Complete Nutrition Guide to Makhana Snacking</h3>
+						<p class="blog-card-excerpt">A deep dive into the nutritional powerhouse that makhana represents. From high protein content to rich antioxidants — here's the science.</p>
+						<a class="blog-read-more" href="#">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+					</div>
+				</div>
+
+				<!-- Blog 3 -->
+				<div class="blog-card" data-animate="fade-up" data-delay="0.2" data-blog-id="3">
+					<img class="blog-card-img" src="../assets/img.png" alt="Sourcing" style="filter: saturate(0.8) sepia(0.2);">
+					<div class="blog-card-body">
+						<div class="blog-card-meta">
+							<span class="blog-card-date">Jan 20, 2026</span>
+							<span class="blog-card-tag">Sustainability</span>
+						</div>
+						<h3 class="blog-card-title">Why We Source from Bihar's Lotus Ponds</h3>
+						<p class="blog-card-excerpt">Our direct-sourcing model supports local farmers and ensures the purest makhana you can find. Learn about the lotus pond ecosystem and our commitment to traceability.</p>
+						<a class="blog-read-more" href="#">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+					</div>
+				</div>
+
+				<!-- Blog 4 -->
+				<div class="blog-card" data-animate="fade-up" data-blog-id="4">
+					<img class="blog-card-img" src="../assets/img.png" alt="Recipe" style="filter: saturate(1.1) hue-rotate(-15deg);">
+					<div class="blog-card-body">
+						<div class="blog-card-meta">
+							<span class="blog-card-date">Dec 10, 2025</span>
+							<span class="blog-card-tag">Recipes</span>
+						</div>
+						<h3 class="blog-card-title">5 Makhana Recipes for Every Occasion</h3>
+						<p class="blog-card-excerpt">From spicy peri peri to cooling mint chaat — five creative ways to transform Glen Harvest makhana into your favorite snack for any moment.</p>
+						<a class="blog-read-more" href="#">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+					</div>
+				</div>
+
+				<!-- Blog 5 -->
+				<div class="blog-card" data-animate="fade-up" data-delay="0.1" data-blog-id="5">
+					<img class="blog-card-img" src="../assets/img.png" alt="Wellness" style="filter: saturate(1.2) brightness(0.95);">
+					<div class="blog-card-body">
+						<div class="blog-card-meta">
+							<span class="blog-card-date">Nov 5, 2025</span>
+							<span class="blog-card-tag">Wellness</span>
+						</div>
+						<h3 class="blog-card-title">Mindful Snacking: The New Wellness Imperative</h3>
+						<p class="blog-card-excerpt">In a world of instant gratification, choosing the right snack is an act of self-care. Explore how makhana fits perfectly into a mindful lifestyle.</p>
+						<a class="blog-read-more" href="#">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+					</div>
+				</div>
+
+				<!-- Blog 6 -->
+				<div class="blog-card" data-animate="fade-up" data-delay="0.2" data-blog-id="6">
+					<img class="blog-card-img" src="../assets/img.png" alt="Behind Brand" style="filter: saturate(0.9) contrast(1.1);">
+					<div class="blog-card-body">
+						<div class="blog-card-meta">
+							<span class="blog-card-date">Oct 18, 2025</span>
+							<span class="blog-card-tag">Behind the Brand</span>
+						</div>
+						<h3 class="blog-card-title">Inside the Glen Harvest Slow-Roast Process</h3>
+						<p class="blog-card-excerpt">We never fry. We never compromise. Step inside our facility where every batch is slow-roasted for maximum crunch and zero guilt.</p>
+						<a class="blog-read-more" href="#">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+</main>
+
+<!-- Blog Detail Overlay -->
+<div id="blog-overlay">
+	<div class="blog-close-btn">
+		<button onclick="closeBlog()" aria-label="Close">
+			<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+		</button>
+	</div>
+	<article class="blog-article" id="blog-article-content"></article>
+</div>
+
+<footer>
+	<div class="container">
+		<div class="footer-top">
+			<div class="footer-brand">
+				<h2 class="font-heading">Glen Harvest</h2>
+				<p>Premium organic makhana sourced directly from aquatic farms and perfectly roasted for your well-being.</p>
+				<div style="display: flex; gap: 12px;">
+					<a href="#" class="pill pill-outline" style="border-color: rgba(242,232,212,0.2); color: var(--gh-cream); padding: 8px 16px;">IG</a>
+					<a href="#" class="pill pill-outline" style="border-color: rgba(242,232,212,0.2); color: var(--gh-cream); padding: 8px 16px;">FB</a>
+				</div>
+			</div>
+			<div class="footer-contact">
+				<h3 style="font-size: 1.2rem; margin-bottom: 0.5rem; font-family: 'base-bold', sans-serif;">Join our Newsletter</h3>
+				<form action="#" method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
+					<input type="email" placeholder="Enter your email address" class="gh-input" required>
+					<button type="submit" class="pill pill-ghost" style="width: fit-content;">Subscribe</button>
+				</form>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<div>&copy; 2026 Glen Harvest. All rights reserved.</div>
+			<div class="footer-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Terms of Service</a>
+				<a href="#">Refunds</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<script src="../app.js"></script>
+<script>
+const blogData = {
+	1: {
+		title: "The Ancient Secret of Makhana: From Sacred Pond to Modern Plate",
+		date: "March 15, 2026",
+		author: "Glen Harvest Editorial Team",
+		tag: "Origin Story",
+		body: `
+			<p>In the quiet waters of Bihar's vast network of lotus ponds, a botanical treasure has been growing undisturbed for millennia. Makhana — the seed of the aquatic plant <em>Euryale ferox</em> — has been revered in Ayurvedic medicine for centuries, prized for its cooling properties and ability to nourish the body without weighing it down.</p>
+
+			<blockquote>"When we discovered how rich Bihar's makhana was in both flavor and nutrients, we knew the world needed to experience it — not as an exotic import, but as the everyday snack it was always meant to be."</blockquote>
+
+			<h3>The Lotus Pond Miracle</h3>
+			<p>The aquatic fox nut plant, or <em>Euryale ferox</em>, is a member of the water lily family. It thrives in stagnant or slow-moving freshwater bodies, particularly in the Mithila and Kosi regions of Bihar. What makes this plant remarkable is its complete symbiosis with its environment — the pond ecosystem provides natural nutrients, while the plant's broad leaves help maintain water quality by regulating light penetration and preventing excessive algae growth.</p>
+			<p>Each plant produces hundreds of spiny seed pods during the harvest season, each containing a cluster of small, black outer seeds. Beneath this protective shell lies the white, spherical makhana kernel — crunchy, mild, and nutritionally dense.</p>
+
+			<h3>Ancient Roots</h3>
+			<p>Makhana has an ancient pedigree that few modern snacks can match:</p>
+			<ul>
+				<li>It features as a sacred offering in Hindu religious ceremonies, symbolizing purity and prosperity.</li>
+				<li>Ayurvedic texts categorize makhana as a Sattvic food — one that promotes clarity, calmness, and physical energy.</li>
+				<li>Historical records from the Mauryan Empire (322–185 BCE) document makhana cultivation as a key agricultural practice in Magadha.</li>
+				<li>Traditional Indian fasts (vrats) have long used makhana as a primary food source, recognizing its ability to sustain energy without stimulating digestion.</li>
+			</ul>
+
+			<h3>From Farm to Your Pantry</h3>
+			<p>The journey from lotus pond to packaged snack is one of patience and precision. After harvesting, makhana seeds undergo a meticulous sun-drying, roasting, and popping process — much like traditional popcorn — but with the care that only hand-sorting and small-batch roasting can provide.</p>
+			<p>Glen Harvest partners directly with farming cooperatives in Bihar, ensuring fair prices for growers and zero middlemen. This direct sourcing model is what allows us to maintain the extraordinary quality our customers expect.</p>
+
+			<p>The revival of makhana as a global superfood isn't just a trend — it's a rediscovery of something ancient and true. And Glen Harvest is proud to be part of that story.</p>
+		`
+	},
+	2: {
+		title: "The Complete Nutrition Guide to Makhana Snacking",
+		date: "February 28, 2026",
+		author: "Dr. Anjali Mehta, Nutritionist",
+		tag: "Nutrition",
+		body: `
+			<p>When nutritionists talk about "functional snacks" — foods that provide health benefits beyond basic caloric fuel — makhana consistently ranks among the top tier. But what exactly makes these small aquatic nuts so nutritionally potent?</p>
+
+			<h3>The Macro Profile</h3>
+			<p>Per 100 grams of roasted makhana:</p>
+			<ul>
+				<li><strong>Calories:</strong> 347 kcal — moderate, making it suitable for weight-conscious diets.</li>
+				<li><strong>Protein:</strong> 9.7 g — one of the highest protein contents among plant-based snacks, rivalling many dairy-based options.</li>
+				<li><strong>Carbohydrates:</strong> 76.9 g — predominantly complex carbs that provide sustained energy rather than a quick spike.</li>
+				<li><strong>Fat:</strong> 0.1 g — virtually fat-free, a rarity in the snack world.</li>
+				<li><strong>Fiber:</strong> 14.5 g — excellent dietary fiber for digestive health.</li>
+			</ul>
+
+			<blockquote>"What distinguishes makhana from conventional snacks is its exceptionally low glycemic index combined with high protein and fiber. This trio means steady energy release, prolonged satiety, and minimal blood sugar fluctuation."</blockquote>
+
+			<h3>Micronutrient Powerhouse</h3>
+			<p>Beyond macros, makhana delivers a formidable array of vitamins and minerals:</p>
+			<ul>
+				<li><strong>Magnesium:</strong> Essential for muscle function, bone health, and nervous system regulation.</li>
+				<li><strong>Potassium:</strong> Critical for maintaining healthy blood pressure levels and cardiovascular function.</li>
+				<li><strong>Iron:</strong> Supports hemoglobin production and oxygen transport — especially important for vegetarian and vegan diets.</li>
+				<li><strong>Zinc:</strong> A cornerstone of immune function and cellular repair.</li>
+				<li><strong>Phosphorus:</strong> Works in concert with calcium to strengthen bones and teeth.</li>
+			</ul>
+
+			<h3>Health Benefits Backed by Science</h3>
+			<p>Research increasingly supports traditional claims about makhana's health benefits. Studies have demonstrated its anti-diabetic properties, attributed to specific protein fractions that help regulate blood glucose metabolism. Its antioxidant profile — including flavonoids and polyphenols — helps combat oxidative stress and inflammation at a cellular level.</p>
+			<p>For athletes and fitness enthusiasts, makhana provides an ideal pre-workout energy source: easily digestible complex carbs with enough protein to begin muscle support, all without the gastrointestinal distress that heavier snacks can cause.</p>
+
+			<p>At Glen Harvest, we believe that understanding what you eat is as important as enjoying it. That's why every packet carries not just a flavor profile, but a commitment to transparency about what's inside — and what isn't.</p>
+		`
+	},
+	3: {
+		title: "Why We Source from Bihar's Lotus Ponds",
+		date: "January 20, 2026",
+		author: "Glen Harvest Sourcing Team",
+		tag: "Sustainability",
+		body: `
+			<p>In an industry where cost-cutting often means sacrificing quality, our sourcing philosophy is uncompromising: we go to the origin, work directly with farmers, and accept nothing less than the standard that our customers deserve.</p>
+
+			<h3>The Bihar Advantage</h3>
+			<p>Bihar is home to India's largest aquatic makhana-growing region, accounting for approximately 90% of global production. But production volume alone doesn't explain why Glen Harvest chooses Bihar. It's the ecosystem — specifically, the lotus-dominated ponds in districts like Madhubani, Darbhanga, and Purnea — that makes the difference.</p>
+			<p>These ponds are ancient, some predating modern records. Their nutrient-rich sediment, combined with the natural lotus canopy that regulates sunlight and temperature, creates ideal growing conditions for makhana seeds that are denser, more flavorful, and more nutritious than those grown in artificial or newly constructed ponds.</p>
+
+			<blockquote>"When we visited a cooperative in Madhubani, we found farmers still using techniques their grandparents used. That continuity — that respect for traditional knowledge — is the foundation of quality that cannot be manufactured. It has to be cultivated."</blockquote>
+
+			<h3>Direct Trade, Direct Impact</h3>
+			<p>Our partnership model eliminates intermediaries entirely. This means:</p>
+			<ul>
+				<li><strong>Farmers receive 40-60% more</strong> than the market rate, incentivizing continued quality and sustainable practices.</li>
+				<li><strong>Zero middleman handling</strong> reduces contamination risks and ensures batch-level traceability from pond to packet.</li>
+				<li><strong>Seasonal advance payments</strong> provide farmers with working capital during the off-season, reducing their dependence on high-interest loans.</li>
+			</ul>
+
+			<h3>Environmental Stewardship</h3>
+			<p>Lotus pond cultivation is inherently sustainable — it requires no chemical inputs, draws its nutrients from naturally deposited pond sediment, and supports local biodiversity by providing habitat for aquatic birds, fish, and beneficial microorganisms. Our farming partners commit to maintaining these ecological practices, and we conduct regular water quality audits to verify this.</p>
+
+			<p>Every Glen Harvest packet carries the fingerprint of a sustainable supply chain. We don't just source from Bihar — we invest in it.</p>
+		`
+	},
+	4: {
+		title: "5 Makhana Recipes for Every Occasion",
+		date: "December 10, 2025",
+		author: "Glen Harvest Kitchen",
+		tag: "Recipes",
+		body: `
+			<p>Glen Harvest makhana is delicious straight from the packet. But its versatility as a culinary ingredient is where things get truly exciting. Here are five recipes we love — each designed for a different mood and moment.</p>
+
+			<h3>1. Peri Peri Crunch (Game Day)</h3>
+			<p>Our signature flavor profile, made at home. Toss 100g of roasted Glen Harvest makhana in a bowl with 1 tsp peri peri seasoning, a drizzle of olive oil, and a pinch of sea salt. Toss until evenly coated. Bake at 180°C for 8 minutes until the spice blooms into the makhana's pores. Serve warm.</p>
+
+			<h3>2. Mint Raita Makhana (Cooling Refresher)</h3>
+			<p>Blend a handful of fresh mint leaves with ½ cup Greek yogurt, a squeeze of lemon, salt, and a pinch of roasted cumin powder. Fold in 80g of crushed makhana. Let sit for 10 minutes so the makhana absorbs the raita while maintaining a gentle crunch. Perfect alongside grilled proteins.</p>
+
+			<blockquote>"The best snacks are ones that work alone and in combination. Makhana is a culinary chameleon — it absorbs, complements, and elevates whatever it's paired with. That's the mark of a truly versatile ingredient."</blockquote>
+
+			<h3>3. Kheer Dream (Festival Dessert)</h3>
+			<p>Simmer 1 liter of whole milk until reduced by half. Add ¾ cup of crushed makhana, 3 tbsp sugar (or jaggery), cardamom pods, and a handful of saffron strands. Cook until the makhana softens and the milk thickens to a custard consistency. Garnish with pistachios. This is a traditional festive dessert reimagined with a nutty twist.</p>
+
+			<h3>4. Spiced Trail Mix (Adventure Fuel)</h3>
+			<p>Combine 150g Glen Harvest makhana with 50g dark chocolate chunks, 40g roasted pumpkin seeds, 30g dried cranberries, and 1 tsp chaat masala. Store in an airtight container. This mix is the perfect hiking companion — lightweight, nutrient-dense, and deeply satisfying.</p>
+
+			<h3>5. Makhana Upma (Breakfast Redefined)</h3>
+			<p>Temper mustard seeds, curry leaves, green chilies, and a pinch of asafoetida in 1 tbsp ghee. Sauté 1 diced onion until translucent, then add 1 crushed tomato. Once the oil separates, fold in 150g crushed makhana and 1 cup warm water. Cover for 3 minutes. Finish with fresh coriander and a squeeze of lime. An entirely different breakfast from anything you've had before.</p>
+
+			<p>Recipes are invitations, not rules. Experiment with Glen Harvest makhana and share your creations with us.</p>
+		`
+	},
+	5: {
+		title: "Mindful Snacking: The New Wellness Imperative",
+		date: "November 5, 2025",
+		author: "Dr. Rohan Sharma, Clinical Psychologist",
+		tag: "Wellness",
+		body: `
+			<p>We live in an era of paradox: we are more health-conscious than any previous generation, yet we snack more frequently and less thoughtfully than ever before. The wellness industry has taught us to choose better foods — but what about choosing better <em>ways</em> to eat them?</p>
+
+			<h3>What Is Mindful Snacking?</h3>
+			<p>Mindful snacking is the practice of bringing full attention to the act of eating between meals. It involves choosing snacks that nourish both body and mind, eating slowly and with intention, and recognizing the difference between physical hunger and emotional or habitual eating triggers.</p>
+			<p>Research in behavioral psychology shows that mindful eating reduces overall caloric intake by 15-30% while simultaneously increasing satisfaction and reducing guilt associated with food consumption. The mechanism is simple: when you pay attention, you make better decisions, and when you slow down, you enjoy more.</p>
+
+			<blockquote>"Mindfulness in eating isn't about restriction — it's about restoration. When we eat makhana, which requires no preparation, no guilt, and delivers genuine nutrition, we're removing the friction between craving and choosing well."</blockquote>
+
+			<h3>Why Makhana Is the Ideal Mindful Snack</h3>
+			<p>The characteristics of makhana that make it perfect for mindful snacking are not coincidental:</p>
+			<ul>
+				<li><strong>Requires no preparation:</strong> The absence of a cooking step removes the opportunity for unconscious snacking while prepping food.</li>
+				<li><strong>Texture demands attention:</strong> The distinctive crunch creates a multisensory eating experience that naturally slows consumption.</li>
+				<li><strong>Portionable:</strong> Glen Harvest's sealed packets provide built-in portion control, eliminating the risk of mindless overconsumption from an open bag.</li>
+				<li><strong>Nutritionally complete:</strong> A mindful snack should leave you satisfied — not hungry for more food, not sluggish from a sugar crash. Makhana delivers exactly that.</li>
+			</ul>
+
+			<h3>Three Steps to Mindful Snacking</h3>
+			<p><strong>Pause.</strong> Before reaching for a snack, ask: "Am I hungry? Or am I bored, stressed, or habit-driven?" This 5-second pause is the most powerful tool in mindful eating.</p>
+			<p><strong>Choose.</strong> Opt for Glen Harvest makhana when the answer is hunger — or even when it isn't, as the nutritional profile is forgiving.</p>
+			<p><strong>Savor.</strong> Eat one piece at a time, paying attention to the texture, the flavor arc, and the physical sensation of satisfaction building.</p>
+
+			<p>Mindfulness doesn't require meditation cushions. It requires a willingness to pay attention — starting with what you choose to put in your mouth between meals.</p>
+		`
+	},
+	6: {
+		title: "Inside the Glen Harvest Slow-Roast Process",
+		date: "October 18, 2025",
+		author: "Glen Harvest Production Team",
+		tag: "Behind the Brand",
+		body: `
+			<p>The word "slow" in Glen Harvest's slow-roast process isn't marketing language. It's the single most important variable in our production chain — and the reason our products consistently outperform competitors in both taste and texture. Here's what actually goes on inside our facility.</p>
+
+			<h3>Step 1: Hand-Graded Selection</h3>
+			<p>Every batch of raw makhana arriving at our facility undergoes a visual and tactile inspection by our quality team. We sort for size, color uniformity, and shell integrity. Only kernels that meet our size threshold — typically the largest 35% of the harvest — proceed to roasting. The remaining 65% is returned to our partner farms for secondary processing or local market sale, ensuring nothing is wasted but nothing compromises our quality.</p>
+
+			<h3>Step 2: The Slow-Roast</h3>
+			<p>This is where our process fundamentally diverges from industry norms. While most commercial snack manufacturers use flash-frying (180°C+ for 90 seconds) to achieve instant crunch, we roast our makhana at 120-130°C for 12-18 minutes, depending on kernel density.</p>
+
+			<blockquote>"The difference between frying and slow-roasting isn't just temperature — it's time. When you roast slowly, you're giving the internal moisture time to migrate outward and evaporate gently. This creates a microstructure in the kernel that's uniformly crunchy without any burned or underdone patches. Flash-frying can't achieve this. It caramelizes the exterior too quickly and traps moisture inside."</blockquote>
+
+			<p>The result is a crunch that is <em>consistent from center to edge</em> — a texture characteristic that our blind taste panel consistently identifies as a differentiator.</p>
+
+			<h3>Step 3: Seasoning Without Compromise</h3>
+			<p>Our seasoning is applied in a tumbling drum that ensures near-perfect coverage uniformity — each kernel receives approximately the same spice distribution. We use only natural ingredients: real dried herbs, cold-pressed essential oils for mint extraction, and mineral salts. Zero artificial flavoring, zero MSG, zero synthetic colorants.</p>
+
+			<h3>Step 4: Nitrogen-Sealed Freshness</h3>
+			<p>Within 2 hours of seasoning, makhana is packaged in our oxygen-free nitrogen-flushed bags. This step locks in the freshly roasted quality for months without artificial preservatives. It's the same science as vacuum-sealing, but gentler — nitrogen displaces oxygen without compressing the delicate, roasted kernels.</p>
+
+			<p>From the moment a roasting tray is loaded to the moment a sealed packet leaves our dock, the time is under 6 hours. That's the Glen Harvest promise: fresh, fast, and never fried.</p>
+		`
+	}
+};
+
+function openBlog(id) {
+	const data = blogData[id];
+	if (!data) return;
+	const overlay = document.getElementById('blog-overlay');
+	const article = document.getElementById('blog-article-content');
+	article.innerHTML = `
+		<span class="blog-card-tag" style="margin-bottom:1rem;display:inline-block;">${data.tag}</span>
+		<h1 class="blog-article-title">${data.title}</h1>
+		<div class="blog-article-meta">
+			<span>${data.date}</span>
+			<span>${data.author}</span>
+		</div>
+		<div class="blog-article-body">${data.body}</div>
+	`;
+	overlay.classList.add('is-open');
+	document.body.style.overflow = 'hidden';
+	overlay.scrollTop = 0;
+
+	gsap.fromTo(article.children,
+		{ y: 30, opacity: 0 },
+		{ y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: 'power2.out' }
+	);
+}
+
+function closeBlog() {
+	const overlay = document.getElementById('blog-overlay');
+	overlay.classList.remove('is-open');
+	document.body.style.overflow = '';
+}
+
+document.querySelectorAll('.blog-card').forEach(card => {
+	card.addEventListener('click', () => {
+		const id = card.dataset.blogId;
+		if (id) openBlog(id);
+	});
+});
+
+document.addEventListener('keydown', e => {
+	if (e.key === 'Escape') closeBlog();
+});
+</script>
+</body>
+</html>
