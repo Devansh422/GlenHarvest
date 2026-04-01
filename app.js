@@ -34,10 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
   gsap.ticker.lagSmoothing(0);
   gsap.registerPlugin(ScrollTrigger);
 
-  /* ── NAVBAR ENTRANCE ──────────────────────────────────────── */
-  initNavbar();
-
   /* ── ELEMENT REFS ──────────────────────────────────────────── */
+  const navElement = document.querySelector('nav');
+  if (navElement) {
+    initNavbar(navElement);
+  }
   const track = document.getElementById("journey-scroll-track");
   const canvas = document.getElementById("journey-canvas");
   const pkg1 = document.getElementById("pkg1");
@@ -52,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!track) {
     // not on home page — run generic animations only
-    initNavbar(); initGeneric(); return;
+    initGeneric(); return;
   }
 
   /* ── VIEWPORT ──────────────────────────────────────────────── */
@@ -448,13 +449,20 @@ function initGeneric() {
    NAVBAR — entrance + microinteractions
    Runs on every page as soon as DOMContentLoaded fires.
    ───────────────────────────────────────────────────────────── */
-function initNavbar() {
-  const nav = document.querySelector('nav');
+function initNavbar(nav) {
   if (!nav) return;
 
   const isMobileNav = window.innerWidth <= 768;
 
-  /* Slide in from bottom (desktop) or from top (mobile) */
+  /* 
+   * KEY FIX: Set the initial state via GSAP so it owns the FULL transform.
+   * CSS had `left:50%` but NO transform — GSAP now handles xPercent:-50
+   * (which equals translateX(-50%)) AND y:20 together.
+   * This prevents any subsequent gsap.to({ y }) call from wiping xPercent.
+   */
+  gsap.set(nav, { xPercent: -50, y: 20, opacity: 0 });
+
+  /* Slide in — spring ease for premium feel */
   gsap.to(nav, {
     opacity: 1,
     y: 0,
@@ -476,7 +484,7 @@ function initNavbar() {
     });
   }
 
-  /* Entrance for the CTA button */
+  /* CTA button pops in last */
   const cta = nav.querySelector('.nav-cta');
   if (cta) {
     gsap.from(cta, {
@@ -488,15 +496,16 @@ function initNavbar() {
     });
   }
 
-  /* Subtle dim on scroll — nav becomes slightly transparent when scrolling down */
+  /* Scroll hide/show — always include xPercent so centering is preserved */
   let lastScroll = 0;
   window.addEventListener('scroll', () => {
     const sy = window.scrollY;
     if (sy > 80 && sy > lastScroll) {
-      gsap.to(nav, { opacity: 0.82, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+      gsap.to(nav, { y: -100, xPercent: -50, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
     } else if (sy < lastScroll || sy < 80) {
-      gsap.to(nav, { opacity: 1, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+      gsap.to(nav, { y: 0, xPercent: -50, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
     }
     lastScroll = sy;
   }, { passive: true });
 }
+
