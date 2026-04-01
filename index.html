@@ -1,15 +1,316 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Glen-Harvest</title>
+	<title>Glen Harvest | Premium Makhana Snacks</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" type="text/css" href="navbar.css">
 	<link rel="stylesheet" type="text/css" href="footer.css">
+	<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+	<script src="https://unpkg.com/split-type"></script>
 </head>
+
 <body>
 
+	<nav id="main-nav">
+		<a href="index.html" class="nav-logo">Glen Harvest</a>
+		<div class="nav-links">
+			<a href="index.html" class="nav-link active">Home</a>
+			<a href="about.html" class="nav-link">Our Story</a>
+			<a href="contact.html" class="nav-link">Contact</a>
+		</div>
+		<a href="#products" class="nav-cta">Shop Now</a>
+	</nav>
+
+	<main>
+
+		<!-- ============================================================
+	     THE GRAND SCROLL JOURNEY — one pinned container
+	     height = scroll distance available for the whole sequence
+	     ============================================================ -->
+		<div id="journey-scroll-track">
+
+			<!-- STICKY CANVAS: the actual viewport that stays fixed -->
+			<div id="journey-canvas">
+
+				<!-- ── BACKGROUND layers ─────────────────────────────── -->
+				<div id="bg-green" class="journey-bg"></div>
+				<div id="bg-cream" class="journey-bg"></div>
+
+				<!-- ── PATTERN OVERLAY ───────────────────────────────── -->
+				<div class="pattern-overlay" id="journey-pattern"></div>
+
+				<!-- ── FLOATING PACKAGES ─────────────────────────────── -->
+				<img src="assets/pkg1.png" id="pkg1" class="journey-pkg" alt="Mint Masti Package">
+				<img src="assets/pkg2.png" id="pkg2" class="journey-pkg" alt="Peri Peri Package">
+
+				<!-- ── TEXT LAYERS ───────────────────────────────────── -->
+
+				<!-- BEAT 0 — Hero tagline (visible at start) -->
+				<div id="beat-0" class="journey-beat">
+					<div class="journey-beat-inner" style="text-align:center;">
+						<div class="badge hero-badge">For the Mindful Snacker</div>
+						<h1 class="hero-title" id="hero-main-title">Pure Nature,<br>Crafted for You</h1>
+						<p class="hero-sub">We craft slow-roasted, premium fox nuts<br>for those who refuse to
+							compromise on taste or health.</p>
+						<div class="hero-cta-row">
+							<a href="#products" class="pill pill-ghost">Explore Flavors</a>
+							<a href="about.html" class="pill"
+								style="background:transparent;color:var(--gh-cream);border:1.5px solid rgba(242,232,212,0.4);">Our
+								Story</a>
+						</div>
+						<div class="scroll-hint">
+							<span>Scroll to explore</span>
+							<div class="scroll-arrow"></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- BEAT 1 — What & Who -->
+				<div id="beat-1" class="journey-beat" style="opacity:0; pointer-events:none;">
+					<div class="journey-beat-inner beat-split">
+						<div class="beat-text">
+							<div class="badge beat-badge">What We Do</div>
+							<h2 class="beat-heading" data-beat-split>Premium Makhana, Zero Compromise</h2>
+							<p class="beat-body">We turn Bihar's finest aquatic fox nuts into an extraordinary snacking
+								experience. Every kernel is hand-selected, slow-roasted — never fried — and sealed to
+								preserve peak nutrition and crunch.</p>
+							<div class="benefit-chips">
+								<div class="chip"><span class="chip-dot"></span>Gluten Free</div>
+								<div class="chip"><span class="chip-dot"></span>High Protein</div>
+								<div class="chip"><span class="chip-dot"></span>Zero Preservatives</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- BEAT 2 — Why Trust -->
+				<div id="beat-2" class="journey-beat" style="opacity:0; pointer-events:none;">
+					<div class="journey-beat-inner beat-split beat-split--reverse">
+						<div class="beat-text">
+							<div class="badge beat-badge">Why Trust Us</div>
+							<h2 class="beat-heading" data-beat-split>Pond to Packet,<br>No Shortcuts</h2>
+							<p class="beat-body">Direct sourcing from Bihar's pristine aquatic farms. We own every step
+								of the chain — so you get the cleanest, most nutritious makhana possible, batch after
+								batch.</p>
+							<div class="trust-stats">
+								<div class="stat"><span class="stat-num">100%</span><span class="stat-label">Organic
+										Sourced</span></div>
+								<div class="stat"><span class="stat-num">0</span><span class="stat-label">Artificial
+										Additives</span></div>
+								<div class="stat"><span class="stat-num">50g</span><span class="stat-label">Per Perfect
+										Pack</span></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- BEAT 3 — Landing text before products reveal -->
+				<div id="beat-3" class="journey-beat" style="opacity:0; pointer-events:none;">
+					<div class="journey-beat-inner" style="text-align:center;">
+						<div class="badge beat-badge">Two Signatures. One Standard.</div>
+						<h2 class="beat-heading"
+							style="text-align:center; color:var(--gh-green-deep); font-size:clamp(2.5rem,5vw,4.5rem);"
+							data-beat-split>Meet the Flavors</h2>
+						<p class="beat-body"
+							style="text-align:center; color:var(--gh-green-light); max-width:500px; margin:1rem auto 0;">
+							Each variant tells its own story.<br>Both deliver the same uncompromising quality.</p>
+					</div>
+				</div>
+
+			</div><!-- /journey-canvas -->
+		</div><!-- /journey-scroll-track -->
+
+
+		<!-- ============================================================
+	     THE LANDING ZONE — product cards the packages fly INTO
+	     ============================================================ -->
+		<section id="products" class="section-padding"
+			style="background:var(--gh-cream); position:relative; overflow:hidden;">
+			<div class="container">
+				<div style="text-align:center; margin-bottom:4rem;" data-animate="fade-up">
+					<div class="badge"
+						style="border-color:rgba(26,56,41,0.2);color:var(--gh-green);margin-bottom:1rem;">Direct to
+						Consumer &amp; Wholesale</div>
+					<h2 class="section-title" data-split="true">Signature Flavors</h2>
+				</div>
+
+				<div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:2rem;">
+
+					<!-- Mint Masti -->
+					<div class="card-xl flavor-card" id="card-pkg1"
+						style="background:var(--gh-green);color:var(--gh-cream);display:flex;flex-direction:column;"
+						data-animate="fade-up">
+						<div class="img-wrapper" id="card-img-1" style="height:260px;margin-bottom:2rem;">
+							<div
+								style="width:100%;height:100%;background:var(--gh-green-light);display:flex;align-items:center;justify-content:center;">
+								<!-- pkg2 = Mint Masti (green pack) -->
+								<img src="assets/pkg2.png" class="card-pkg-img" id="card-img-pkg1" alt="Mint Masti Pack"
+									style="height:100%;object-fit:contain;position:absolute;">
+							</div>
+						</div>
+						<div class="tag" style="align-self:flex-start;margin-bottom:1rem;border-color:transparent;">
+							Refreshing</div>
+						<h3 style="font-family:'heading',serif;font-size:2rem;margin-bottom:1rem;">Mint Masti</h3>
+						<p style="color:rgba(242,232,212,0.8);line-height:1.6;margin-bottom:2rem;flex:1;">A refreshing
+							burst of mint on premium makhana — light, cool, and utterly addictive.</p>
+						<div style="display:flex;align-items:center;justify-content:space-between;">
+							<span style="font-family:'heading',serif;font-size:1.5rem;">₹99</span>
+							<button class="pill pill-primary"
+								style="background:var(--gh-cream);color:var(--gh-green);">Add to Cart</button>
+						</div>
+					</div>
+
+					<!-- Peri Peri -->
+					<div class="card-xl flavor-card" id="card-pkg2"
+						style="background:var(--gh-red);color:white;border-color:transparent;" data-animate="fade-up"
+						data-delay="0.15">
+						<div class="img-wrapper" id="card-img-2" style="height:260px;margin-bottom:2rem;">
+							<div
+								style="width:100%;height:100%;background:var(--gh-red-deep);display:flex;align-items:center;justify-content:center;">
+								<!-- pkg1 = Peri Peri (red pack) -->
+								<img src="assets/pkg1.png" class="card-pkg-img" id="card-img-pkg2" alt="Peri Peri Pack"
+									style="height:120%;object-fit:contain;position:absolute;">
+							</div>
+						</div>
+						<div class="tag"
+							style="align-self:flex-start;margin-bottom:1rem;color:var(--gh-red);border-color:transparent;">
+							Spicy</div>
+						<h3 style="font-family:'heading',serif;font-size:2rem;margin-bottom:1rem;">Peri Peri</h3>
+						<p style="color:rgba(255,255,255,0.8);line-height:1.6;margin-bottom:2rem;flex:1;">A fiery kick
+							of authentic peri peri spices balancing the crunch of roasted makhana perfectly.</p>
+						<div style="display:flex;align-items:center;justify-content:space-between;">
+							<span style="font-family:'heading',serif;font-size:1.5rem;">₹99</span>
+							<button class="pill pill-primary" style="background:white;color:var(--gh-red);">Add to
+								Cart</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</section>
+
+		<!-- Proof Section -->
+		<section class="section-padding"
+			style="background:var(--gh-green-deep);color:var(--gh-cream);text-align:center;position:relative;">
+			<div class="pattern-overlay" style="opacity:0.1;"></div>
+			<div class="container" data-animate="fade-up" style="position:relative;z-index:2;">
+				<div class="badge" style="border-color:rgba(242,232,212,0.2);">Loved by our Community</div>
+				<h2 class="font-heading"
+					style="font-size:clamp(1.8rem,3.5vw,2.8rem);max-width:780px;margin:2rem auto;line-height:1.4;">"Glen
+					Harvest has completely redefined my snacking habits. The crunch is unmatched and knowing it's
+					organic makes every bite better."</h2>
+				<div style="font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--gh-gold);">— Sarah
+					J., Mindful Snacker</div>
+			</div>
+		</section>
+
+		<!-- Benefits -->
+		<section class="section-padding" style="background:var(--gh-white);">
+			<div class="container">
+				<div style="text-align:center;margin-bottom:4rem;" data-animate="fade-up">
+					<h2 class="section-title">Wholesome Benefits</h2>
+					<p
+						style="margin-top:1rem;color:var(--gh-green-light);max-width:500px;margin-inline:auto;line-height:1.6;">
+						Every batch is crafted to deliver maximum nutrition, exceptional crunch, and zero compromise.
+					</p>
+				</div>
+				<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;"
+					data-animate="fade-up">
+					<div class="benefit-block">
+						<div class="benefit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+								<path d="M12 3C8.7 3 6 5.7 6 9c0 4.5 6 12 6 12s6-7.5 6-12c0-3.3-2.7-6-6-6z"
+									fill="#2C5440" />
+							</svg></div>
+						<h4>Gluten Free</h4>
+						<p>Safe for all dietary needs. Naturally free from gluten.</p>
+					</div>
+					<div class="benefit-block">
+						<div class="benefit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+								<path d="M12 3v18M7 9l5-6 5 6" stroke="#2C5440" stroke-width="2"
+									stroke-linecap="round" />
+							</svg></div>
+						<h4>High Protein</h4>
+						<p>More protein per gram than most conventional snacks.</p>
+					</div>
+					<div class="benefit-block">
+						<div class="benefit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+								<circle cx="12" cy="12" r="5" fill="#2C5440" />
+								<path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="#2C5440" stroke-width="2"
+									stroke-linecap="round" />
+							</svg></div>
+						<h4>Boosts Energy</h4>
+						<p>Natural complex carbs that fuel your day without a crash.</p>
+					</div>
+					<div class="benefit-block">
+						<div class="benefit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+								<path d="M5 12l4 4 10-10" stroke="#2C5440" stroke-width="2.5" stroke-linecap="round"
+									stroke-linejoin="round" />
+							</svg></div>
+						<h4>Rich in Nutrients</h4>
+						<p>Packed with calcium, magnesium, and antioxidants.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- CTA -->
+		<section style="background:var(--gh-white);padding:6rem 5%;text-align:center;">
+			<div class="card-xl"
+				style="background:var(--gh-cream);display:flex;flex-direction:column;align-items:center;padding:5rem 2rem;max-width:860px;margin:0 auto;box-shadow:0 40px 80px rgba(0,0,0,0.06);"
+				data-animate="zoom-in">
+				<h2 class="section-title">Ready to Elevate Your Snacking?</h2>
+				<p style="margin:1.5rem 0 2.5rem;max-width:420px;line-height:1.7;font-size:1.05rem;">Join thousands of
+					others who have switched to guilt-free, premium makhana.</p>
+				<div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+					<a href="#products" class="pill pill-primary">Shop the Harvest</a>
+					<a href="contact.html" class="pill pill-outline"
+						style="border-color:var(--gh-green-deep);">Wholesale Inquiries</a>
+				</div>
+			</div>
+		</section>
+
+	</main>
+
+	<footer>
+		<div class="container">
+			<div class="footer-top">
+				<div class="footer-brand">
+					<h2 class="font-heading">Glen Harvest</h2>
+					<p>Premium organic makhana sourced directly from aquatic farms and perfectly roasted for your
+						well-being.</p>
+					<div style="display:flex;gap:12px;">
+						<a href="#" class="pill pill-outline"
+							style="border-color:rgba(242,232,212,0.2);color:var(--gh-cream);padding:8px 16px;">IG</a>
+						<a href="#" class="pill pill-outline"
+							style="border-color:rgba(242,232,212,0.2);color:var(--gh-cream);padding:8px 16px;">FB</a>
+					</div>
+				</div>
+				<div class="footer-contact">
+					<h3 style="font-size:1.2rem;margin-bottom:0.5rem;font-family:'base-bold',sans-serif;">Join our
+						Newsletter</h3>
+					<form action="#" method="POST" style="display:flex;flex-direction:column;gap:1rem;">
+						<input type="email" placeholder="Enter your email address" class="gh-input" required>
+						<button type="submit" class="pill pill-ghost" style="width:fit-content;">Subscribe</button>
+					</form>
+				</div>
+			</div>
+			<div class="footer-bottom">
+				<div>&copy; 2026 Glen Harvest. All rights reserved.</div>
+				<div class="footer-links">
+					<a href="#">Privacy Policy</a>
+					<a href="#">Terms of Service</a>
+					<a href="#">Refunds</a>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<script src="app.js"></script>
 </body>
-<script src="app.js"></script>
+
 </html>

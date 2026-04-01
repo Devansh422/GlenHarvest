@@ -1,0 +1,64 @@
+/* Navbar Pattern */
+nav {
+  position: fixed;
+  top: 20px;
+  left: 5%;
+  right: 5%;
+  background: var(--gh-green);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  border-radius: var(--r-xl);
+  z-index: 100;
+  box-shadow: 0 10px 30px rgba(26, 56, 41, 0.2);
+}
+
+.nav-logo {
+  font-family: 'heading', serif;
+  font-size: 24px;
+  color: var(--gh-cream);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-link {
+  font-size: 13px;
+  color: rgba(242,232,212,0.7);
+  text-decoration: none;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-family: 'base-bold', sans-serif;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--gh-cream);
+}
+
+.nav-cta {
+  background: var(--gh-cream);
+  color: var(--gh-green);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: var(--r-full);
+  border: none;
+  cursor: pointer;
+  font-family: 'base-bold', sans-serif;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.nav-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(242, 232, 212, 0.2);
+}
+/* Responsive Nav */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+}

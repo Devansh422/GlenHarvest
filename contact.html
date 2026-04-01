@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Contact Us | Glen Harvest</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="navbar.css">
+	<link rel="stylesheet" type="text/css" href="footer.css">
+	<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+	<script src="https://unpkg.com/split-type"></script>
+</head>
+<body>
+
+<nav>
+	<a href="index.html" class="nav-logo">Glen Harvest</a>
+	<div class="nav-links">
+		<a href="index.html" class="nav-link">Home</a>
+		<a href="about.html" class="nav-link">Our Story</a>
+		<a href="contact.html" class="nav-link active">Contact</a>
+	</div>
+	<a href="index.html#products" class="nav-cta">Shop Now</a>
+</nav>
+
+<main>
+	<section class="section-padding" style="margin-top: 80px;">
+		<div class="container" style="display: flex; flex-direction: column; align-items: center;">
+			
+			<div style="text-align: center; margin-bottom: 3rem; max-width: 600px;" data-animate="fade-up">
+				<h1 class="section-title">Get in Touch</h1>
+				<p style="margin-top: 1rem; font-size: 1.1rem; line-height: 1.6;">Whether you're interested in wholesale distribution, have a question about an order, or just want to say hi, we'd love to hear from you.</p>
+			</div>
+
+			<div class="card-xl" style="width: 100%; max-width: 700px;" data-animate="fade-up">
+				<form action="#" method="POST" style="display: flex; flex-direction: column; gap: 1.5rem;">
+					
+					<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+						<div>
+							<label style="display: block; font-size: 14px; font-family: 'base-bold', sans-serif; margin-bottom: 8px;">First Name</label>
+							<input type="text" class="gh-input" placeholder="Jane" required>
+						</div>
+						<div>
+							<label style="display: block; font-size: 14px; font-family: 'base-bold', sans-serif; margin-bottom: 8px;">Last Name</label>
+							<input type="text" class="gh-input" placeholder="Doe" required>
+						</div>
+					</div>
+
+					<div>
+						<label style="display: block; font-size: 14px; font-family: 'base-bold', sans-serif; margin-bottom: 8px;">Email Address</label>
+						<input type="email" class="gh-input" placeholder="jane@example.com" required>
+					</div>
+
+					<div>
+						<label style="display: block; font-size: 14px; font-family: 'base-bold', sans-serif; margin-bottom: 8px;">Subject</label>
+						<input type="text" class="gh-input" placeholder="Wholesale Inquiry" required>
+					</div>
+
+					<div>
+						<label style="display: block; font-size: 14px; font-family: 'base-bold', sans-serif; margin-bottom: 8px;">Message</label>
+						<textarea class="gh-input" placeholder="How can we help you?" required></textarea>
+					</div>
+
+					<button type="submit" class="pill pill-primary" style="margin-top: 1rem; width: 100%; padding: 18px;">Send Message</button>
+
+				</form>
+			</div>
+
+		</div>
+	</section>
+</main>
+
+<footer>
+	<div class="container">
+		<div class="footer-top">
+			<div class="footer-brand">
+				<h2 class="font-heading">Glen Harvest</h2>
+				<p>Premium organic makhana sourced directly from aquatic farms and perfectly roasted for your well-being.</p>
+				<div style="display: flex; gap: 12px;">
+					<a href="#" class="pill pill-outline" style="border-color: rgba(242,232,212,0.2); color: var(--gh-cream); padding: 8px 16px;">IG</a>
+					<a href="#" class="pill pill-outline" style="border-color: rgba(242,232,212,0.2); color: var(--gh-cream); padding: 8px 16px;">FB</a>
+				</div>
+			</div>
+			<div class="footer-contact">
+				<h3 style="font-size: 1.2rem; margin-bottom: 0.5rem; font-family: 'base-bold', sans-serif;">Join our Newsletter</h3>
+				<form action="#" method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
+					<input type="email" placeholder="Enter your email address" class="gh-input" required>
+					<button type="submit" class="pill pill-ghost" style="width: fit-content;">Subscribe</button>
+				</form>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<div>&copy; 2026 Glen Harvest. All rights reserved.</div>
+			<div class="footer-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Terms of Service</a>
+				<a href="#">Refunds</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

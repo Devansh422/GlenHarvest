@@ -1,36 +1,673 @@
-*{
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-@font-face {
-font-family:'heading';
-font-style:normal;
-font-weight:400;
-src:url(fonts/bloomings.woff2) format("woff2");
-font-display:swap
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 @font-face {
-font-family:'base';
-font-style:normal;
-font-weight:400;
-src:url(fonts/Poppins-Regular.woff2) format("woff2");
-font-display:swap
+  font-family: 'heading';
+  font-style: normal;
+  font-weight: 400;
+  src: url(fonts/bloomings.woff2) format("woff2");
+  font-display: swap
 }
 
 @font-face {
-font-family:'base-bold';
-font-style:normal;
-font-weight:400;
-src:url(fonts/Poppins-Bold.woff2) format("woff2");
-font-display:swap
+  font-family: 'base';
+  font-style: normal;
+  font-weight: 400;
+  src: url(fonts/Poppins-Regular.woff2) format("woff2");
+  font-display: swap
 }
 
-:root{
-	--base:#E5DBBE;
-	--text:#1a1a1a;
-	--color1:#C8863B;
-	--color2:#9D4528;
-	--color3:#324A37;
+@font-face {
+  font-family: 'base-bold';
+  font-style: normal;
+  font-weight: 400;
+  src: url(fonts/Poppins-Bold.woff2) format("woff2");
+  font-display: swap
 }
+
+:root {
+  --gh-green: #2C5440;
+  --gh-green-light: #3D6B52;
+  --gh-green-deep: #1A3829;
+  --gh-cream: #F2E8D4;
+  --gh-cream-warm: #EAD9BB;
+  --gh-red: #B83A28;
+  --gh-red-deep: #8C2B1C;
+  --gh-gold: #C8924A;
+  --gh-white: #FDFAF5;
+  --r-full: 9999px;
+  --r-xl: 24px;
+  --r-lg: 16px;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-scroll-container] {
+  will-change: transform;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gh-green-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gh-cream-warm);
+  border-radius: var(--r-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gh-gold);
+}
+
+body {
+  background: var(--gh-white);
+  font-family: 'base', sans-serif;
+  color: var(--gh-green-deep);
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-heading {
+  font-family: 'heading', serif;
+  font-weight: normal;
+}
+
+.font-base-bold {
+  font-family: 'base-bold', sans-serif;
+}
+
+/* Selection */
+::selection {
+  background: var(--gh-green);
+  color: var(--gh-cream);
+}
+
+/* Typography styles */
+.hero-title {
+  font-family: 'heading', serif;
+  font-size: clamp(3rem, 8vw, 6rem);
+  color: var(--gh-cream);
+  line-height: 1.1;
+  text-align: center;
+}
+
+.section-title {
+  font-family: 'heading', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--gh-green);
+  line-height: 1.2;
+}
+
+/* Buttons & Pills */
+.pill {
+  padding: 12px 28px;
+  border-radius: var(--r-full);
+  font-size: 14px;
+  font-family: 'base-bold', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-weight: 500;
+  border: none;
+}
+
+.pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(44, 84, 64, 0.15);
+}
+
+.pill-primary {
+  background: var(--gh-green);
+  color: var(--gh-cream);
+}
+
+.pill-outline {
+  background: transparent;
+  color: var(--gh-green);
+  border: 1.5px solid var(--gh-green);
+}
+
+.pill-ghost {
+  background: var(--gh-cream);
+  color: var(--gh-green);
+}
+
+.pill-red {
+  background: var(--gh-red);
+  color: #fff;
+}
+
+.pill-gold {
+  background: var(--gh-gold);
+  color: #fff;
+}
+
+.tag {
+  display: inline-block;
+  background: var(--gh-cream);
+  color: var(--gh-green-deep);
+  font-size: 11px;
+  font-family: 'base-bold', sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--gh-cream-warm);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(242, 232, 212, 0.12);
+  border: 1px solid rgba(242, 232, 212, 0.25);
+  color: var(--gh-cream);
+  font-size: 12px;
+  font-family: 'base-bold', sans-serif;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: var(--r-full);
+}
+
+/* Cards */
+.card-xl {
+  background: var(--gh-white);
+  border: 1px solid var(--gh-cream-warm);
+  border-radius: var(--r-xl);
+  padding: 2.5rem;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.card-xl:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+
+/* Image wrappers */
+.img-wrapper {
+  border-radius: var(--r-lg);
+  overflow: visible;
+}
+
+.img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Pattern Texture - used as overlay */
+.pattern-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(242, 232, 212, 0.08) 2px, transparent 2px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Form Elements */
+.gh-input,
+textarea.gh-input {
+  border: 1.5px solid var(--gh-cream-warm);
+  border-radius: var(--r-full);
+  padding: 16px 24px;
+  font-family: 'base', sans-serif;
+  font-size: 16px;
+  color: var(--gh-green-deep);
+  width: 100%;
+  outline: none;
+  background: var(--gh-white);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+textarea.gh-input {
+  border-radius: var(--r-xl);
+  resize: vertical;
+  min-height: 150px;
+}
+
+.gh-input:focus {
+  border-color: var(--gh-green);
+  box-shadow: 0 0 0 4px rgba(44, 84, 64, 0.1);
+}
+
+/* Containers */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 5%;
+}
+
+.section-padding {
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+}
+
+/* ============================================================
+   GRAND JOURNEY CANVAS
+   ============================================================ */
+#journey-scroll-track {
+  /* Total scrollable real-estate for the pinned sequence.
+     Each beat ≈ 100vh of scroll space = 5 beats × 120vh = 600vh */
+  height: 600vh;
+  position: relative;
+}
+
+#journey-canvas {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Full-bleed background layers */
+.journey-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: none;
+}
+
+#bg-green {
+  background: var(--gh-green);
+  z-index: 0;
+}
+
+#bg-cream {
+  background: var(--gh-cream);
+  z-index: 1;
+  opacity: 0;
+  /* GSAP will fade this in */
+}
+
+#journey-pattern {
+  z-index: 2;
+  opacity: 1;
+}
+
+/* PACKAGES — positioned absolutely in the canvas */
+.journey-pkg {
+  position: absolute;
+  width: 34vw;
+  max-width: 400px;
+  object-fit: contain;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.35));
+  /* Both packages centered; GSAP controls all transforms */
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+}
+
+/* card package imgs start hidden, revealed via ScrollTrigger */
+.card-pkg-img {
+  opacity: 0;
+  transform: scale(0.6) rotate(10deg);
+  transition: none;
+  /* handled by GSAP */
+}
+
+/* BEAT TEXT LAYERS */
+.journey-beat {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.journey-beat-inner {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 6%;
+  padding-top: 80px;
+  /* nav clearance */
+}
+
+#beat-3 .journey-beat-inner {
+  margin-top: -25%;
+}
+
+/* Beat 0 – Hero */
+#beat-0 .hero-badge {
+  margin-bottom: 1.2rem;
+}
+
+.hero-sub {
+  color: rgba(242, 232, 212, 0.75);
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  line-height: 1.65;
+  margin-top: 1.2rem;
+  max-width: 500px;
+  margin-inline: auto;
+}
+
+.hero-cta-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.scroll-hint {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(242, 232, 212, 0.4);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.scroll-arrow {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(242, 232, 212, 0.35), transparent);
+  animation: scrollPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scaleY(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleY(1.15);
+  }
+}
+
+/* Beat 1 & 2 – Split layout */
+.beat-split {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  min-height: 100%;
+  align-items: center;
+}
+
+.beat-split--reverse {
+  direction: rtl;
+}
+
+.beat-split--reverse .beat-text {
+  direction: ltr;
+}
+
+.beat-text {
+  padding-right: 4rem;
+}
+
+.beat-split--reverse .beat-text {
+  padding-right: 0;
+  padding-left: 4rem;
+}
+
+.beat-badge {
+  border-color: rgba(26, 56, 41, 0.2);
+  color: var(--gh-green);
+  margin-bottom: 1.2rem;
+}
+
+.beat-heading {
+  font-family: 'heading', serif;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  color: var(--gh-green-deep);
+  line-height: 1.15;
+}
+
+.beat-body {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--gh-green-light);
+  margin-top: 1rem;
+  max-width: 480px;
+}
+
+/* Benefit chips inside beats */
+.benefit-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gh-cream-warm);
+  color: var(--gh-green-deep);
+  font-family: 'base-bold', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  padding: 8px 16px;
+  border-radius: var(--r-full);
+}
+
+.chip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gh-green);
+  flex-shrink: 0;
+}
+
+/* Trust stats */
+.trust-stats {
+  display: flex;
+  gap: 2.5rem;
+  margin-top: 2rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-num {
+  font-family: 'heading', serif;
+  font-size: 2.2rem;
+  color: var(--gh-green);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gh-green-light);
+  font-family: 'base-bold', sans-serif;
+}
+
+/* Product card placeholder — keeps layout during animation */
+.pkg-placeholder {
+  width: 65%;
+  height: 90%;
+  /* transparent — just reserving space */
+}
+
+/* ── BENEFIT BLOCKS ──────────────────────────────────────── */
+.benefit-block {
+  background: var(--gh-cream);
+  border-radius: var(--r-xl);
+  padding: 2rem;
+  border: 1px solid var(--gh-cream-warm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.benefit-block:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.05);
+}
+
+.benefit-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--gh-cream-warm);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.benefit-block h4 {
+  font-family: 'base-bold', sans-serif;
+  font-size: 1rem;
+  color: var(--gh-green-deep);
+  margin-bottom: 0.4rem;
+}
+
+.benefit-block p {
+  font-size: 0.9rem;
+  color: var(--gh-green-light);
+  line-height: 1.6;
+}
+
+/* ── GENERAL UTILITY ─────────────────────────────────────── */
+.char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+
+/* ─ Large tablet (below 900px) ──────────────────────────── */
+@media (max-width: 900px) {
+  .journey-pkg {
+    width: 52vw;
+  }
+  .trust-stats {
+    gap: 1.2rem;
+  }
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+/* ─ Mobile (below 640px) — beats switch to TOP-BOTTOM ────── */
+@media (max-width: 640px) {
+  /* Packages become smaller so text has room below */
+  .journey-pkg {
+    width: 64vw;
+  }
+
+  /* ── Beat containers: anchor text to the BOTTOM ────────── */
+  /* On desktop: text is on the LEFT, packages on the RIGHT.
+     On mobile:  packages stay center-screen (top half),
+                 text panel drops to the BOTTOM of the canvas. */
+  #beat-1,
+  #beat-2,
+  #beat-3 {
+    align-items: flex-end;   /* pushes inner content to bottom */
+  }
+
+  #beat-1 .journey-beat-inner,
+  #beat-2 .journey-beat-inner,
+  #beat-3 .journey-beat-inner {
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;    /* breathing room above nav/edge */
+  }
+
+  /* Collapse the two-column LEFT-RIGHT grid to a single column */
+  .beat-split,
+  .beat-split--reverse {
+    display: block;           /* single-column, no grid */
+    direction: ltr;           /* reset RTL used for reversed beats */
+  }
+
+  /* Full-width text block, no side padding */
+  .beat-text,
+  .beat-split--reverse .beat-text {
+    padding-right: 0;
+    padding-left: 0;
+    direction: ltr;
+  }
+
+  /* Tighter trust stats row so it doesn't overflow */
+  .trust-stats {
+    gap: 1rem;
+  }
+
+  .stat-num {
+    font-size: 1.7rem;
+  }
+
+  /* Smaller benefit chips to fit in a row */
+  .chip {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+
+  /* Beat headings slightly smaller */
+  .beat-heading {
+    font-size: clamp(1.5rem, 6vw, 2.4rem);
+  }
+
+  .beat-body {
+    font-size: 0.95rem;
+  }
+
+  /* Hero title smaller */
+  .hero-title {
+    font-size: clamp(2.2rem, 10vw, 4rem);
+  }
+
+  /* Beat 0 hero text — also center and compact */
+  #beat-0 .journey-beat-inner {
+    padding-top: 80px;
+  }
+
+  /* Nav links collapse on very small */
+  .nav-links {
+    display: none;
+  }
+}

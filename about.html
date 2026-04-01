@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Our Story | Glen Harvest</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="navbar.css">
+	<link rel="stylesheet" type="text/css" href="footer.css">
+	<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+	<script src="https://unpkg.com/split-type"></script>
+</head>
+<body>
+
+<nav>
+	<a href="index.html" class="nav-logo">Glen Harvest</a>
+	<div class="nav-links">
+		<a href="index.html" class="nav-link">Home</a>
+		<a href="about.html" class="nav-link active">Our Story</a>
+		<a href="contact.html" class="nav-link">Contact</a>
+	</div>
+	<a href="index.html#products" class="nav-cta">Shop Now</a>
+</nav>
+
+<main>
+	<!-- Hero Section -->
+	<section style="background: var(--gh-green-deep); position: relative; min-height: 60vh; display: flex; align-items: center; justify-content: center; padding-top: 80px; overflow: hidden;">
+		<div class="pattern-overlay" style="opacity: 0.15;"></div>
+		<div class="container" style="position: relative; z-index: 2; text-align: center;">
+			<div class="badge" data-animate="fade-up" style="border-color: rgba(242,232,212,0.1);">Our Roots</div>
+			<h1 class="hero-title" data-split="true" style="margin-top: 1rem;">From Pond to Packet</h1>
+			<p style="color: rgba(242,232,212,0.7); max-width: 600px; margin: 1.5rem auto 0; font-size: 1.1rem; line-height: 1.6;" data-animate="fade-up">Sourced from pristine aquatic farms. Zero compromise on purity.</p>
+		</div>
+	</section>
+
+	<!-- Content Section -->
+	<section class="section-padding">
+		<div class="container">
+			<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+				<div data-animate="fade-up">
+					<h2 class="section-title" style="margin-bottom: 2rem;">Mindfully Curated</h2>
+					<p style="margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.8;">At Glen Harvest, we believe snacking should be a ritual of wellness, not guilt. We source our makhana (fox nuts) directly from the lotus ponds of Bihar, ensuring every batch meets the highest standards of organic farming.</p>
+					<p style="margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.8;">Our slow-roasting process preserves the crunch and locks in the nutrients, creating a snack that is not only devastatingly delicious but entirely good for you.</p>
+					
+					<div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+						<div class="tag">Authentic Sourcing</div>
+						<div class="tag">Small Batch</div>
+						<div class="tag">Zero Artificial Colors</div>
+					</div>
+				</div>
+				<div class="img-wrapper" style="height: 600px; box-shadow: 0 20px 40px rgba(0,0,0,0.05);" data-animate="zoom-in">
+					<img src="assets/img.png" alt="Makhana Harvest" style="filter: saturate(1.2);">
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+
+<footer>
+	<div class="container">
+		<div class="footer-top">
+			<div class="footer-brand">
+				<h2 class="font-heading">Glen Harvest</h2>
+				<p>Premium organic makhana sourced directly from aquatic farms and perfectly roasted for your well-being.</p>
+				<div style="display: flex; gap: 12px;">
+					<a href="#" class="pill pill-outline" style="border-color: rgba(242,232,212,0.2); color: var(--gh-cream); padding: 8px 16px;">IG</a>
+					<a href="#" class="pill pill-outline" style="border-color: rgba(242,232,212,0.2); color: var(--gh-cream); padding: 8px 16px;">FB</a>
+				</div>
+			</div>
+			<div class="footer-contact">
+				<h3 style="font-size: 1.2rem; margin-bottom: 0.5rem; font-family: 'base-bold', sans-serif;">Join our Newsletter</h3>
+				<form action="#" method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
+					<input type="email" placeholder="Enter your email address" class="gh-input" required>
+					<button type="submit" class="pill pill-ghost" style="width: fit-content;">Subscribe</button>
+				</form>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<div>&copy; 2026 Glen Harvest. All rights reserved.</div>
+			<div class="footer-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Terms of Service</a>
+				<a href="#">Refunds</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

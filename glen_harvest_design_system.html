@@ -1,0 +1,217 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --gh-green:#2C5440;
+    --gh-green-light:#3D6B52;
+    --gh-green-deep:#1A3829;
+    --gh-cream:#F2E8D4;
+    --gh-cream-warm:#EAD9BB;
+    --gh-red:#B83A28;
+    --gh-red-deep:#8C2B1C;
+    --gh-gold:#C8924A;
+    --gh-white:#FDFAF5;
+    --r-full:9999px;
+    --r-xl:24px;
+    --r-lg:16px;
+  }
+  body{background:var(--gh-white);font-family:'DM Sans',sans-serif;color:var(--gh-green-deep);padding:0 0 4rem}
+  .hero{background:var(--gh-green);padding:3rem 2rem;text-align:center;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(242,232,212,0.06) 2px,transparent 2px);background-size:28px 28px}
+  .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.2rem);color:var(--gh-cream);letter-spacing:-0.5px}
+  .hero p{color:rgba(242,232,212,0.7);font-size:14px;margin-top:8px;font-weight:300;letter-spacing:2px;text-transform:uppercase}
+  .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(242,232,212,0.12);border:1px solid rgba(242,232,212,0.25);color:var(--gh-cream);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 16px;border-radius:var(--r-full);margin-top:1.5rem}
+  .section{padding:2.5rem 1.5rem;border-bottom:1px solid var(--gh-cream-warm)}
+  .section-title{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--gh-green);margin-bottom:1.5rem;display:flex;align-items:center;gap:10px}
+  .section-title::after{content:'';flex:1;height:1px;background:var(--gh-cream-warm)}
+  .row{display:flex;flex-wrap:wrap;gap:12px}
+  .swatch{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .swatch-dot{width:64px;height:64px;border-radius:var(--r-full);border:2px solid rgba(0,0,0,0.06)}
+  .swatch-name{font-size:11px;font-weight:500;color:var(--gh-green-deep);text-align:center}
+  .swatch-hex{font-size:10px;color:#888;font-family:monospace}
+  .type-row{padding:1rem 0;border-bottom:1px dashed var(--gh-cream-warm)}
+  .type-row:last-child{border-bottom:none}
+  .type-label{font-size:11px;color:#888;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+  .radius-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+  .radius-card{background:var(--gh-green);color:var(--gh-cream);padding:1.2rem;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .radius-label{font-size:11px;font-family:monospace;opacity:0.7}
+  .radius-val{font-size:13px;font-weight:600}
+  .pill-demo{display:inline-flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .pill{padding:8px 20px;border-radius:var(--r-full);font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s}
+  .pill-primary{background:var(--gh-green);color:var(--gh-cream)}
+  .pill-outline{background:transparent;color:var(--gh-green);border:1.5px solid var(--gh-green)}
+  .pill-ghost{background:var(--gh-cream);color:var(--gh-green)}
+  .pill-red{background:var(--gh-red);color:#fff}
+  .pill-gold{background:var(--gh-gold);color:#fff}
+  .card-demo{background:var(--gh-white);border:1.5px solid var(--gh-cream-warm);border-radius:var(--r-xl);padding:1.5rem}
+  .card-green{background:var(--gh-green);border-radius:var(--r-xl);padding:1.5rem;color:var(--gh-cream)}
+  .icon-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+  .icon-chip{display:flex;align-items:center;gap:8px;background:var(--gh-cream);border-radius:var(--r-full);padding:8px 16px;font-size:12px;font-weight:500;color:var(--gh-green-deep)}
+  .icon-circle{width:32px;height:32px;border-radius:var(--r-full);background:var(--gh-green);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .spacing-row{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap}
+  .spacing-block{background:var(--gh-green);border-radius:var(--r-full);display:flex;align-items:center;justify-content:center;color:var(--gh-cream);font-size:10px;font-weight:600}
+  .input-demo{border:1.5px solid var(--gh-cream-warm);border-radius:var(--r-full);padding:12px 20px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--gh-green-deep);width:100%;outline:none;background:var(--gh-white);transition:border-color 0.2s}
+  .input-demo:focus{border-color:var(--gh-green)}
+  .nav-demo{background:var(--gh-green);display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-radius:var(--r-xl)}
+  .nav-logo{font-family:'Playfair Display',serif;font-size:18px;color:var(--gh-cream);font-style:italic}
+  .nav-links{display:flex;gap:20px}
+  .nav-link{font-size:12px;color:rgba(242,232,212,0.7);text-decoration:none;letter-spacing:1px;text-transform:uppercase}
+  .nav-cta{background:var(--gh-cream);color:var(--gh-green);font-size:12px;font-weight:600;padding:8px 20px;border-radius:var(--r-full);border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+  .pattern-box{background:var(--gh-green);border-radius:var(--r-xl);padding:1.5rem;position:relative;overflow:hidden}
+  .pattern-box::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(242,232,212,0.1) 2.5px,transparent 2.5px);background-size:24px 24px}
+  .pattern-inner{position:relative;z-index:1;color:var(--gh-cream);font-family:'Playfair Display',serif;font-size:1.4rem;font-style:italic}
+  .tag{display:inline-block;background:var(--gh-cream);color:var(--gh-green-deep);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:4px 14px;border-radius:var(--r-full);border:1px solid var(--gh-cream-warm)}
+  .rule-block{background:var(--gh-cream);border-left:3px solid var(--gh-green);border-radius:0 var(--r-lg) var(--r-lg) 0;padding:1rem 1.2rem;margin-bottom:10px;font-size:13px;color:var(--gh-green-deep);line-height:1.7}
+  .rule-block strong{color:var(--gh-green);font-weight:600}
+</style>
+
+<div class="hero">
+  <div class="badge">Design System v1.0</div>
+  <h1 style="margin-top:1rem">Glen Harvest</h1>
+  <p>Premium Organic Snacking — Website Design Rules</p>
+</div>
+
+<div class="section">
+  <div class="section-title">Color Palette</div>
+  <div class="row">
+    <div class="swatch"><div class="swatch-dot" style="background:#2C5440"></div><div class="swatch-name">Forest Green</div><div class="swatch-hex">#2C5440</div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#1A3829"></div><div class="swatch-name">Deep Green</div><div class="swatch-hex">#1A3829</div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#3D6B52"></div><div class="swatch-name">Mid Green</div><div class="swatch-hex">#3D6B52</div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#F2E8D4"></div><div class="swatch-name">Cream</div><div class="swatch-hex">#F2E8D4</div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#EAD9BB"></div><div class="swatch-name">Warm Cream</div><div class="swatch-hex">#EAD9BB</div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#B83A28"></div><div class="swatch-name">Peri Red</div><div class="swatch-hex">#B83A28</div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#C8924A"></div><div class="swatch-name">Harvest Gold</div><div class="swatch-hex">#C8924A</div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#FDFAF5"></div><div class="swatch-name">Off White</div><div class="swatch-hex">#FDFAF5</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Typography</div>
+  <div class="type-row">
+    <div class="type-label">Display — Playfair Display Serif</div>
+    <div style="font-family:'Playfair Display',serif;font-size:2.4rem;color:var(--gh-green);line-height:1.1">Pure Nature,<br><em>Crafted for You</em></div>
+  </div>
+  <div class="type-row">
+    <div class="type-label">Heading H2</div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--gh-green)">Premium Makhana Snacks</div>
+  </div>
+  <div class="type-row">
+    <div class="type-label">Body — DM Sans 400</div>
+    <div style="font-size:15px;color:var(--gh-green-deep);line-height:1.75;max-width:480px">Every batch of our premium fox nuts is carefully sourced and crafted to deliver a refined balance of natural purity, exceptional taste, and holistic well-being.</div>
+  </div>
+  <div class="type-row">
+    <div class="type-label">Label / Caption — DM Sans 500 uppercase</div>
+    <div style="font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gh-gold)">Gluten Free · High Protein · Rich in Nutrients</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Border Radius — Full Pill System</div>
+  <div class="radius-grid">
+    <div class="radius-card" style="border-radius:var(--r-full)"><div class="radius-label">--r-full</div><div class="radius-val">9999px</div><div style="font-size:11px;opacity:0.6">Buttons, Tags, Inputs, Chips</div></div>
+    <div class="radius-card" style="border-radius:var(--r-xl)"><div class="radius-label">--r-xl</div><div class="radius-val">24px</div><div style="font-size:11px;opacity:0.6">Cards, Modals, Sections</div></div>
+    <div class="radius-card" style="border-radius:var(--r-lg)"><div class="radius-label">--r-lg</div><div class="radius-val">16px</div><div style="font-size:11px;opacity:0.6">Inner cards, Images</div></div>
+    <div class="radius-card" style="border-radius:50%"><div class="radius-label">50%</div><div class="radius-val">Circle</div><div style="font-size:11px;opacity:0.6">Avatars, Icons, Dots</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Buttons & Pills</div>
+  <div class="pill-demo">
+    <button class="pill pill-primary">Shop Now</button>
+    <button class="pill pill-outline">Learn More</button>
+    <button class="pill pill-ghost">View All</button>
+    <button class="pill pill-red">Peri Peri</button>
+    <button class="pill pill-gold">Mint Masti</button>
+  </div>
+  <div style="margin-top:16px">
+    <div class="tag">Gluten Free</div>
+    &nbsp;<div class="tag" style="display:inline-block">High Protein</div>
+    &nbsp;<div class="tag" style="display:inline-block">50 GM</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Form Elements</div>
+  <div style="display:flex;flex-direction:column;gap:12px;max-width:400px">
+    <input class="input-demo" placeholder="Enter your email address" type="email">
+    <input class="input-demo" placeholder="Search products..." type="text">
+    <button class="pill pill-primary" style="width:100%;padding:14px 20px;font-size:14px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">Subscribe to Newsletter</button>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Cards</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px">
+    <div class="card-demo">
+      <div class="tag">New Flavor</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gh-green);margin:12px 0 6px">Mint Masti</div>
+      <div style="font-size:13px;color:#666;line-height:1.6">A refreshing burst of mint on premium makhana — light, cool, and utterly addictive.</div>
+      <div style="margin-top:16px;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--gh-green)">₹99</span>
+        <button class="pill pill-primary" style="border:none;font-family:'DM Sans',sans-serif;cursor:pointer;font-size:12px;padding:8px 16px">Add to Cart</button>
+      </div>
+    </div>
+    <div class="card-green">
+      <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;opacity:0.6;margin-bottom:8px">Premium Quality</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:8px">From Pond to Packet</div>
+      <div style="font-size:13px;opacity:0.75;line-height:1.6">Sourced from pristine aquatic farms. Zero compromise on purity.</div>
+      <button class="pill" style="margin-top:16px;background:var(--gh-cream);color:var(--gh-green);border:none;font-family:'DM Sans',sans-serif;cursor:pointer;font-size:12px;padding:8px 20px">Our Story →</button>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Benefit Chips (Icon System)</div>
+  <div class="icon-row">
+    <div class="icon-chip"><div class="icon-circle"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2C5.8 2 4 3.8 4 6c0 3 4 8 4 8s4-5 4-8c0-2.2-1.8-4-4-4z" fill="#F2E8D4"/></svg></div>Gluten Free</div>
+    <div class="icon-chip"><div class="icon-circle"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M4 6l4-4 4 4" stroke="#F2E8D4" stroke-width="2" stroke-linecap="round"/></svg></div>High Protein</div>
+    <div class="icon-chip"><div class="icon-circle"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="4" fill="#F2E8D4"/><path d="M8 2v2M8 12v2M2 8h2M12 8h2" stroke="#F2E8D4" stroke-width="1.5" stroke-linecap="round"/></svg></div>Boost Energy</div>
+    <div class="icon-chip"><div class="icon-circle"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="#F2E8D4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Rich in Nutrients</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Navigation Pattern</div>
+  <div class="nav-demo">
+    <div class="nav-logo">Glen Harvest</div>
+    <div class="nav-links">
+      <a class="nav-link" href="#">Products</a>
+      <a class="nav-link" href="#">Our Story</a>
+      <a class="nav-link" href="#">Wholesale</a>
+    </div>
+    <button class="nav-cta">Shop Now</button>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Makhana Dot Pattern (Background Texture)</div>
+  <div class="pattern-box">
+    <div class="pattern-inner">Nature's finest,<br>mindfully curated.</div>
+  </div>
+  <div style="margin-top:12px;font-size:12px;color:#888;font-style:italic">Use radial-gradient dot pattern at 5–10% opacity over green backgrounds</div>
+</div>
+
+<div class="section">
+  <div class="section-title">Spacing Scale</div>
+  <div class="spacing-row">
+    <div><div class="spacing-block" style="width:16px;height:16px;font-size:9px">4</div><div style="font-size:10px;text-align:center;margin-top:4px;color:#888">4px</div></div>
+    <div><div class="spacing-block" style="width:24px;height:24px;font-size:9px">8</div><div style="font-size:10px;text-align:center;margin-top:4px;color:#888">8px</div></div>
+    <div><div class="spacing-block" style="width:32px;height:32px;font-size:10px">12</div><div style="font-size:10px;text-align:center;margin-top:4px;color:#888">12px</div></div>
+    <div><div class="spacing-block" style="width:48px;height:48px;font-size:10px">16</div><div style="font-size:10px;text-align:center;margin-top:4px;color:#888">16px</div></div>
+    <div><div class="spacing-block" style="width:64px;height:64px;font-size:10px">24</div><div style="font-size:10px;text-align:center;margin-top:4px;color:#888">24px</div></div>
+    <div><div class="spacing-block" style="width:80px;height:80px;font-size:10px">32</div><div style="font-size:10px;text-align:center;margin-top:4px;color:#888">32px</div></div>
+    <div><div class="spacing-block" style="width:96px;height:96px;font-size:10px">48</div><div style="font-size:10px;text-align:center;margin-top:4px;color:#888">48px</div></div>
+  </div>
+</div>
+
+<div class="section" style="border-bottom:none">
+  <div class="section-title">Design Rules</div>
+  <div class="rule-block"><strong>Border Radius:</strong> All interactive elements (buttons, inputs, tags, chips, badges) use <code>border-radius: 9999px</code> (full pill). Cards use 24px. Images use 16px. Never use sharp corners anywhere.</div>
+  <div class="rule-block"><strong>Primary Palette:</strong> Forest Green (#2C5440) is dominant. Cream (#F2E8D4) is the secondary surface and text-on-dark. Peri Red (#B83A28) used only for the spicy variant accent. Gold (#C8924A) for premium moments.</div>
+  <div class="rule-block"><strong>Typography:</strong> Playfair Display (serif) for all headlines and the brand logo. DM Sans for all body copy, labels, and UI text. Never mix more than these two families.</div>
+  <div class="rule-block"><strong>Pattern:</strong> The signature makhana dot texture (radial-gradient dots) is applied as a subtle overlay on green backgrounds. Opacity 6–10% only — atmospheric, never distracting.</div>
+  <div class="rule-block"><strong>Tone:</strong> Refined organic luxury. Never clinical or overly modern. Warm, grounded, trustworthy — like a premium farmers market, not a tech startup.</div>
+  <div class="rule-block"><strong>Flavor Colors:</strong> Mint Masti = Forest Green system. Peri Peri = Brick Red system. Each flavor gets its own themed section but the base chrome (nav, footer) stays in Forest Green always.</div>
+</div>
