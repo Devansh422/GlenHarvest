@@ -365,6 +365,12 @@ textarea.gh-input {
   margin-top: -25%;
 }
 
+@media (max-width:500px) {
+  #beat-3 .journey-beat-inner {
+    margin-top: -25%;
+  }
+}
+
 /* Beat 0 – Hero */
 #beat-0 .hero-badge {
   margin-bottom: 1.2rem;
@@ -580,13 +586,16 @@ textarea.gh-input {
   .journey-pkg {
     width: 52vw;
   }
+
   .trust-stats {
     gap: 1.2rem;
   }
+
   .footer-top {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+
   .footer-bottom {
     flex-direction: column;
     gap: 1rem;
@@ -595,6 +604,7 @@ textarea.gh-input {
 
 /* ─ Mobile (below 640px) — beats switch to TOP-BOTTOM ────── */
 @media (max-width: 640px) {
+
   /* Packages become smaller so text has room below */
   .journey-pkg {
     width: 64vw;
@@ -604,24 +614,31 @@ textarea.gh-input {
   /* On desktop: text is on the LEFT, packages on the RIGHT.
      On mobile:  packages stay center-screen (top half),
                  text panel drops to the BOTTOM of the canvas. */
+
+
   #beat-1,
   #beat-2,
   #beat-3 {
-    align-items: flex-end;   /* pushes inner content to bottom */
+    align-items: flex-end;
+    /* pushes inner content to bottom */
   }
+
 
   #beat-1 .journey-beat-inner,
   #beat-2 .journey-beat-inner,
   #beat-3 .journey-beat-inner {
-    padding-top: 1.5rem;
-    padding-bottom: 3rem;    /* breathing room above nav/edge */
+    padding-top: 8rem;
+    padding-bottom: 3rem;
+    /* breathing room above nav/edge */
   }
 
   /* Collapse the two-column LEFT-RIGHT grid to a single column */
   .beat-split,
   .beat-split--reverse {
-    display: block;           /* single-column, no grid */
-    direction: ltr;           /* reset RTL used for reversed beats */
+    display: block;
+    /* single-column, no grid */
+    direction: ltr;
+    /* reset RTL used for reversed beats */
   }
 
   /* Full-width text block, no side padding */
@@ -670,4 +687,4 @@ textarea.gh-input {
   .nav-links {
     display: none;
   }
-}
+}

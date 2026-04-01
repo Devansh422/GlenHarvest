@@ -34,6 +34,9 @@ document.addEventListener("DOMContentLoaded", () => {
   gsap.ticker.lagSmoothing(0);
   gsap.registerPlugin(ScrollTrigger);
 
+  /* ── NAVBAR ENTRANCE ──────────────────────────────────────── */
+  initNavbar();
+
   /* ── ELEMENT REFS ──────────────────────────────────────────── */
   const track = document.getElementById("journey-scroll-track");
   const canvas = document.getElementById("journey-canvas");
@@ -49,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!track) {
     // not on home page — run generic animations only
-    initGeneric(); return;
+    initNavbar(); initGeneric(); return;
   }
 
   /* ── VIEWPORT ──────────────────────────────────────────────── */
@@ -76,20 +79,20 @@ document.addEventListener("DOMContentLoaded", () => {
       pkg2: { x: 50, y: 90 },
     },
     entry: {
-      pkg1: { x: -80, y: -100, rotation: -28, scale: 1.0 },
-      pkg2: { x: 80, y: -60, rotation: 28, scale: 0.92 },
+      pkg1: { x: -80, y: 250, rotation: -28, scale: 1.0 },
+      pkg2: { x: 80, y: 150, rotation: 28, scale: 0.92 },
     },
     p1: {
-      pkg1: { x: -60, y: -120, rotation: -14, scale: 0.88, zIndex: 12 },
-      pkg2: { x: 60, y: -75, rotation: 10, scale: 0.80, zIndex: 11 },
+      pkg1: { x: -60, y: 220, rotation: 20, scale: 0.9, zIndex: 11 },
+      pkg2: { x: 60, y: 100, rotation: -28, scale: 0.80, zIndex: 12 },
     },
     p2: {
-      pkg2: { x: 40, y: -110, rotation: 5, scale: 0.92, zIndex: 12 },
-      pkg1: { x: -40, y: -65, rotation: -18, scale: 0.76, zIndex: 11 },
+      pkg2: { x: 40, y: 200, rotation: 5, scale: 0.92, zIndex: 12 },
+      pkg1: { x: -40, y: 165, rotation: -18, scale: 0.76, zIndex: 11 },
     },
     p3: {
-      pkg1: { x: -70, y: -90, rotation: -24, scale: 0.90, zIndex: 12 },
-      pkg2: { x: 70, y: -55, rotation: 24, scale: 0.84, zIndex: 11 },
+      pkg1: { x: -70, y: -90, rotation: -24, scale: 1.2, zIndex: 11 },
+      pkg2: { x: 70, y: -55, rotation: 24, scale: 1.84, zIndex: 12 },
     },
     p4: {
       pkg1: { x: -280, y: 600, rotation: -50, scale: 0.35, opacity: 0 },
@@ -439,4 +442,61 @@ function initGeneric() {
       }
     });
   });
+}
+
+/* ─────────────────────────────────────────────────────────────
+   NAVBAR — entrance + microinteractions
+   Runs on every page as soon as DOMContentLoaded fires.
+   ───────────────────────────────────────────────────────────── */
+function initNavbar() {
+  const nav = document.querySelector('nav');
+  if (!nav) return;
+
+  const isMobileNav = window.innerWidth <= 768;
+
+  /* Slide in from bottom (desktop) or from top (mobile) */
+  gsap.to(nav, {
+    opacity: 1,
+    y: 0,
+    duration: 0.9,
+    delay: 0.4,
+    ease: 'back.out(1.4)',
+  });
+
+  /* Stagger nav links after the bar appears */
+  const links = nav.querySelectorAll('.nav-link');
+  if (links.length) {
+    gsap.from(links, {
+      opacity: 0,
+      y: isMobileNav ? -8 : 8,
+      duration: 0.45,
+      stagger: 0.07,
+      delay: 0.75,
+      ease: 'power3.out',
+    });
+  }
+
+  /* Entrance for the CTA button */
+  const cta = nav.querySelector('.nav-cta');
+  if (cta) {
+    gsap.from(cta, {
+      opacity: 0,
+      scale: 0.85,
+      duration: 0.5,
+      delay: 1.0,
+      ease: 'back.out(1.7)',
+    });
+  }
+
+  /* Subtle dim on scroll — nav becomes slightly transparent when scrolling down */
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const sy = window.scrollY;
+    if (sy > 80 && sy > lastScroll) {
+      gsap.to(nav, { opacity: 0.82, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+    } else if (sy < lastScroll || sy < 80) {
+      gsap.to(nav, { opacity: 1, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+    }
+    lastScroll = sy;
+  }, { passive: true });
 }
